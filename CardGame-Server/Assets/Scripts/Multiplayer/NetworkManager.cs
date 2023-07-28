@@ -4,7 +4,14 @@ using Riptide.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum ServerToClientMsg : ushort
+{
+    ApproveLogin,
+}
+public enum ClientToServerMsg : ushort
+{
+    RequestLogin,
+}
 public class NetworkManager : Singleton<NetworkManager>
 {
     protected override void Awake()
@@ -13,17 +20,18 @@ public class NetworkManager : Singleton<NetworkManager>
         RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, true);
     }
 
-    public Server server;
+    public Server Server;
     [SerializeField] private ushort m_Port = 7777;
     [SerializeField] private ushort m_MaxPlayers = 10;
 
-    private void Start() 
+    private void Start()
     {
-        server = new Server();
-        server.Start(m_Port, m_MaxPlayers);
+        Server = new Server();
+        Server.Start(m_Port, m_MaxPlayers);
     }
+
     private void FixedUpdate()
     {
-        server.Update();
+        Server.Update();
     }
 }
